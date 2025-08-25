@@ -20,7 +20,7 @@ export default function Header(){
 
         {/* add / Admin（放在 about 前） */}
         {!isAuthed ? (
-          <a className="nav-link" href="#" onClick={(e)=>{e.preventDefault(); signIn("github");}}>
+          <a className="nav-link" href="/login">
             add
           </a>
         ) : (
