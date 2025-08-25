@@ -20,7 +20,6 @@ export default async function RootLayout({ children }) {
       <body>
         <Providers>{children}</Providers>
         {/* 你的行为脚本（在页面可交互后加载） */}
-        <Script src="/app.js" strategy="afterInteractive" />
       </body>
     </html>
   );

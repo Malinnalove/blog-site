@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import Script from "next/script";
 
 export default function Page(){
   return (
@@ -132,6 +133,7 @@ export default function Page(){
 
       {/* Side compose button —— 仅管理员可见 */}
       <button className="compose admin-only" id="composeBtn" style={{display:"none"}}>✍️ Compose</button>
+      <Script src="/app.js" strategy="afterInteractive" />
     </div>
   );
 }
