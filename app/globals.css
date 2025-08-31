@@ -67,3 +67,10 @@ a {
 }
 .admin-item:hover { background: #f6f6f6; }
 .admin-item.danger { color: #b00020; }
+
+/* 背景/画布永远在最底层，且不拦截点击 */
+.backdrop { z-index: 0 !important; pointer-events: none !important; position: fixed; inset: 0; }
+canvas, #canvas, .canvas { z-index: 0 !important; pointer-events: none !important; }
+
+/* 统一 Header 层级 */
+.site-header { position: sticky; top: 0; z-index: 4000; background: #fff; }

@@ -232,11 +232,12 @@ const IS_ADMIN = document.documentElement.classList.contains('is-admin');
     // Initial about render
     applyAbout();
     
-// 确保背景画布不挡交互
-const canvases = document.querySelectorAll('canvas, .canvas, #canvas, #bgCanvas');
-canvases.forEach(c => {
-  c.style.pointerEvents = 'none';     // 不拦截点击
-  if (!c.style.position) c.style.position = 'fixed';
-  c.style.inset = '0';
-  c.style.zIndex = '0';               // 保证在 header / 菜单 之下
-});
+(function(){
+  const els = document.querySelectorAll('canvas, .canvas, #canvas, .backdrop');
+  els.forEach(el => {
+    el.style.pointerEvents = 'none';
+    if (!el.style.position) el.style.position = 'fixed';
+    el.style.inset = '0';
+    el.style.zIndex = '0';
+  });
+})();
