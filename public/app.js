@@ -231,3 +231,12 @@ const IS_ADMIN = document.documentElement.classList.contains('is-admin');
 
     // Initial about render
     applyAbout();
+    
+// 确保背景画布不挡交互
+const canvases = document.querySelectorAll('canvas, .canvas, #canvas, #bgCanvas');
+canvases.forEach(c => {
+  c.style.pointerEvents = 'none';     // 不拦截点击
+  if (!c.style.position) c.style.position = 'fixed';
+  c.style.inset = '0';
+  c.style.zIndex = '0';               // 保证在 header / 菜单 之下
+});

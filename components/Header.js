@@ -1,45 +1,46 @@
 'use client';
 import Link from "next/link";
-import { useSession, signIn, signOut } from "next-auth/react";
 import { useState } from "react";
+import { useSession, signOut } from "next-auth/react";
 
 export default function Header(){
-  const { status, data } = useSession();
-  const isAuthed = status === "authenticated";
+  const { data: session } = useSession();
+  const isAuthed = !!session;
+
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="reveal" style={{["--delay"]:"120ms"}}>
-      <a className="brand" href="#home" id="brand" aria-label="Go to home">
-        <span className="avatar" title="About"><img id="avatarImg" alt=""/></span>
-        <span className="brand-name">A Quiet Corner</span>
-      </a>
-      <nav>
-        <a className="nav-link is-active" data-route="home" href="#home"><span className="num">01</span>home</a>
-        <a className="nav-link" data-route="writing" href="#writing"><span className="num">02</span>writing</a>
+    <header className="site-header">
+      <nav className="nav">
+        <Link className="nav-link" href="/">home</Link>
+        <Link className="nav-link" href="/writing">writing</Link>
+        <Link className="nav-link" href="/about">about</Link>
 
-        {/* add / Admin（放在 about 前） */}
         {!isAuthed ? (
-          <a className="nav-link" href="/login">
-            add
-          </a>
+          <Link className="nav-link nav-manage" href="/login">manage</Link>
         ) : (
-          <div style={{position:"relative"}}>
-            <a className="nav-link" href="#" onClick={(e)=>{e.preventDefault(); setOpen(o=>!o);}}>
-              Admin ▾
-            </a>
+          <div className="admin-wrap">
+            <button
+              className="nav-link nav-manage"
+              onClick={() => setOpen(v => !v)}
+              aria-expanded={open}
+              aria-haspopup="menu"
+            >
+              manage
+            </button>
+
             {open && (
-              <div style={{position:"absolute",top:"2.2rem",right:0,background:"#fff",border:"1px solid #ddd",borderRadius:10,boxShadow:"0 10px 24px rgba(0,0,0,.08)",padding:6,minWidth:160}}>
-                <div style={{padding:"6px 10px"}}><Link href="/admin" onClick={()=>setOpen(false)}>Admin Home</Link></div>
-                <div style={{padding:"6px 10px"}}>
-                  <a href="#" onClick={(e)=>{e.preventDefault(); setOpen(false); signOut();}}>Sign out</a>
-                </div>
+              /* 用 portal 可彻底避免被画布盖住；此处简化为绝对定位 + 高 z-index */
+              <div className="admin-menu" role="menu">
+                <Link className="admin-item" href="/new">New post</Link>
+                <Link className="admin-item" href="/drafts">Drafts</Link>
+                <button className="admin-item danger" onClick={() => signOut({ callbackUrl: "/" })}>
+                  Sign out
+                </button>
               </div>
             )}
           </div>
         )}
-
-        <a className="nav-link" data-route="about" href="#about"><span className="num">03</span>about</a>
       </nav>
     </header>
   );
